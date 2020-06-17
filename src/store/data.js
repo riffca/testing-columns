@@ -1,6 +1,5 @@
 import { v4 as uuid } from 'uuid'
 
-import axios from 'axios'
 
 
 export default	{ 
@@ -39,37 +38,34 @@ export default	{
 
 		loadData({commit}){
 
-			let payload = {
-					token: "db5yybdJQaNSpmIILhK1RQ",
-					data: {
-						name: "nameFirst",
-						names: 'functionArray|3|nameFirst',
-						_repeat: 100
-					}
-			};
+			fetch('https://jsonplaceholder.typicode.com/posts')
+				.then(response => response.json())
+				.then(json => {
 
-			axios({
-				method: "post",
-				url: "https://app.fakejson.com/q",
-				data: payload
-			}).then(function(resp) {
+					json.forEach((item,index)=>{
 
-				let json = resp.data
+						let names = json[index].title.split(' ')
 
-				json.forEach((item,index)=>{
-					json[index].type = ''
-					json[index].id = uuid()
-					json[index].changeTime = ''
-					json[index].items= []
-					json[index].names.forEach(one=>{
-						json[index].items.push({
-							name: one, id: uuid()
-						})
+						json[index].type = ''
+						json[index].name = names[0]
+						json[index].id = uuid()
+						json[index].changeTime = ''
+						json[index].items= [
+							{
+								id: uuid(),
+								name: names[1],
+							},							
+							{
+								id: uuid(),
+								name: names[2],
+							}
+
+						]
+
+
 					})
 
-				})
-
-				commit('setLoads',json)
+					commit('setLoads',json)
 
 			});
 
