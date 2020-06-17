@@ -9,7 +9,7 @@
 
 					<div v-for="item in shown" :key="item.id">
 
-						{{ item.name }}
+						<span class="main-name">{{ item.name }}</span>
 
 						<div class="button" @click="addHistory(item, 'saved')">+</div>
 						
@@ -123,6 +123,18 @@ export default {
 
 	}
 	
+}
+
+.nested {
+	display: flex;
+	justify-content: center;
+	div {	
+		margin:  0 .3vw;
+	}
+}
+
+.main-name {
+	font-size: 1.4vw;
 }
 
 </style>
