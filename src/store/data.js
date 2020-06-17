@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 
-
+import axios from 'axios'
 
 
 export default	{ 
@@ -32,48 +32,46 @@ export default	{
 
 	},
 	actions: {
-		
+
 		historyAction({commit}, {type, item}){
 			commit('updateHistory',{type, item})
 		},
 
 		loadData({commit}){
 
-			let data = [
-				{
-					id:uuid(),
-					name: 'test',
-					items: [
-						{
-							id: uuid(),
-							name: 'test',
-						},
-						{
-							id:uuid(),
-							name: 'test',
-						},
-					],
-				},
-				{
-					id: uuid(),
-					name: 'test',
-					items: [
-						{
-							id: uuid(),
-							name: 'test',
-						}
-					],
-				},
-			]
+			let payload = {
+					token: "db5yybdJQaNSpmIILhK1RQ",
+					data: {
+						name: "nameFirst",
+						names: 'functionArray|3|nameFirst',
+						_repeat: 100
+					}
+			};
 
-			data.forEach((item,index)=>{
-				data[index].type = ''
-				data[index].changeTime = ''
-			})
+			axios({
+				method: "post",
+				url: "https://app.fakejson.com/q",
+				data: payload
+			}).then(function(resp) {
 
-			setTimeout(()=>{
-				commit('setLoads',data)
-			},400)
+				let json = resp.data
+
+				json.forEach((item,index)=>{
+					json[index].type = ''
+					json[index].id = uuid()
+					json[index].changeTime = ''
+					json[index].items= []
+					json[index].names.forEach(one=>{
+						json[index].items.push({
+							name: one, id: uuid()
+						})
+					})
+
+				})
+
+				commit('setLoads',json)
+
+			});
 
 		}
 	},

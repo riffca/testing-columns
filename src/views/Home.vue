@@ -79,7 +79,7 @@ export default {
 					item.items.forEach(one=>{
 						string+=one.name
 					})
-					let rexp = string.match(new RegExp(this.filterName, 'g')) 
+					let rexp = string.match(new RegExp(this.filterName, 'gi')) 
 					item.matches = rexp === null ? 0 : rexp.length
 					return item
 
